@@ -121,7 +121,18 @@ export async function appRoutes(app: FastifyInstance) {
 
     app.get("/summary", async () => {
         // [ {date: 17/01, amount: 5, completed: 1}, {date: 18/01, amount:, completed}, {} ]
-
+        
+        const today = dayjs().startOf('day').toDate();
+        
+        let day = await prisma.day.findFirst();
+        
+        if(!day) {
+            day = await prisma.day.create({
+                data: {
+                    date:today,
+                }   
+            })
+        }
         const summary = await prisma.$queryRaw`
             SELECT 
                 d.id,
