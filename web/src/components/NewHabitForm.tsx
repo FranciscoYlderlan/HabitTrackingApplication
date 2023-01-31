@@ -22,7 +22,15 @@ export function NewHabitForm() {
 
     async function createNewHabit (event: FormEvent) {
         event.preventDefault();
-        if (!title || weekDays.length === 0) return;
+
+        if(!title) {
+            alert("Informe o novo hábito");
+            return;
+        }
+        if(weekDays.length === 0) {
+            alert("Informe qual a recorrência do hábito");
+            return;
+        }
         
         await api.post('habits', {
             title,
